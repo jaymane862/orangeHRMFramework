@@ -50,12 +50,6 @@ public class BrowserSetup extends WebDriverConfig{
 	}
 	
 	}
-	
-	
-	
-	
-	
-	
 	public void setBrowserWindowSize() {
 		getDriver().manage().window().maximize();
 	}

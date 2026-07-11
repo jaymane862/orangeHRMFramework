@@ -10,8 +10,7 @@ import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
-
-
+import java.io.File;
 import java.io.FileInputStream;
 
 import java.nio.charset.StandardCharsets;
@@ -44,7 +43,7 @@ public class Hooks extends WebDriverConfig {
 	        prop.load(file);
 
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	        System.out.println(e);
 	    }
 
 	    BrowserSetup browserSetup = new BrowserSetup();
@@ -57,10 +56,11 @@ public class Hooks extends WebDriverConfig {
 	public void addScreenshot(Scenario scenario) {
 		// validate if scenario has failed
 		if (scenario.isFailed()) {
-			String screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BASE64);
-			screenshot = screenshot.replaceAll("[\n\r]", "");
-			byte[] decodedString = Base64.getDecoder().decode(screenshot.getBytes(StandardCharsets.UTF_8));
-			scenario.attach(decodedString, "image/png", "image");
+			TakesScreenshot ts = (TakesScreenshot) driver;
+			File srcFile = ts.getScreenshotAs(OutputType.FILE);
+			File targetFile = new File(System.getProperty("user.dir")+"\\screenShots\\new.Png");
+            
+			srcFile.renameTo(targetFile);
 		}
 	}
 
