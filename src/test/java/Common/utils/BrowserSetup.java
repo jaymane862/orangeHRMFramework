@@ -16,6 +16,7 @@ public class BrowserSetup extends WebDriverConfig{
 			if(getHeadlessValue().equalsIgnoreCase("true")) {
 				ChromeOptions chromeOption = new ChromeOptions();
 				chromeOption.addArguments("--headless");
+				
 				driver = new ChromeDriver(chromeOption);
 			}
 			else{

@@ -21,10 +21,4 @@ public class TestRunner extends WebDriverConfig{
 	  private static final Logger logger = LogManager.getLogger(TestRunner.class);
 
 	  
-	  
-
-
-
-
-
-}
+	  }
