@@ -47,12 +47,14 @@ public class BrowserSetup extends WebDriverConfig{
 				driver = new EdgeDriver();
 			}
 			setBrowserWindowSize();
-		    break;
+			break;
 	}
 	
 	}
 	public void setBrowserWindowSize() {
 		getDriver().manage().window().maximize();
 	}
+	
+	
 
 }

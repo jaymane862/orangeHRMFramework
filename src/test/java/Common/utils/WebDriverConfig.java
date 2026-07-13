@@ -48,10 +48,10 @@ public class WebDriverConfig implements BaseTest{
 	
 	
 	public WebElement getLocator(String key) throws Exception {
-
+		String locator_type;
 	    String locator = fetchLocatorValue(key);
-
-	    return driver.findElement(By.xpath(locator));
+	    locator_type = locator.substring(locator.indexOf(":")+1);
+	    return driver.findElement(By.xpath(locator_type));
 	}
 	
 	
@@ -78,10 +78,13 @@ public class WebDriverConfig implements BaseTest{
 	    Object obj = cls.getDeclaredConstructor().newInstance();
 
 	    // Get findLocator() method
-	    Method method = cls.getMethod("findElement", String.class);
+	    Method findElement = cls.getMethod("findElement", String.class);
 
 	    // Invoke method
-	    return (String) method.invoke(obj, elementName);
+	    String value = (String) findElement.invoke(
+                cls.getDeclaredConstructor().newInstance(),
+                elementName);
+        return value;
 	}
 	
 	

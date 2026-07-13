@@ -2,6 +2,7 @@ package Common.Helpers;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -10,8 +11,11 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchFrameException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -32,6 +36,16 @@ public class ActionMethods extends WebDriverConfig {
 	String childWindow;
 	Scenario scenario;
 	String Value = "value";
+	
+
+	public void fluentWait(String locator) {
+		Wait <WebDriver> wait = new FluentWait<>(driver)
+				.withTimeout(Duration.ofSeconds(10))
+				.pollingEvery(Duration.ofSeconds(2))
+				.ignoreAll(Arrays.asList(NoSuchElementException.class, NoSuchFrameException.class,
+						StaleElementReferenceException.class, InvalidElementStateException.class));
+		wait.until(d -> isElementVisible(locator));
+	}
 
 	public void enterText(String value, String locator) throws Exception {
 		if (!(value == null || value.equalsIgnoreCase("skip"))) {
@@ -110,6 +124,7 @@ public class ActionMethods extends WebDriverConfig {
 			WebElement elementObj = getLocator(locator);
 			return elementObj.isDisplayed();
 		} catch (Exception e) {
+			 
 			return false;
 		}
 	}

@@ -10,6 +10,7 @@ public class baseSteps extends WebDriverConfig{
 		
 		driver = getDriver();
 		driver.get(getSiteUrl());
+        actionMethods.waitUntilPageReadyStateIsComplete();
 		
 	}
 

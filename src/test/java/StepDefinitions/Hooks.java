@@ -9,8 +9,10 @@ import io.cucumber.java.Scenario;
 
 import java.io.File;
 import java.io.FileInputStream;
-
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +21,8 @@ import org.apache.logging.log4j.Logger;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+
+
 
 public class Hooks extends WebDriverConfig {
 
@@ -48,32 +52,34 @@ public class Hooks extends WebDriverConfig {
 	}
 
 	
-
-	@AfterStep
-	public void addScreenshot(Scenario scenario) {
-		// validate if scenario has failed
-		if (scenario.isFailed()) {
-			TakesScreenshot ts = (TakesScreenshot) driver;
-			File srcFile = ts.getScreenshotAs(OutputType.FILE);
-			File targetFile = new File(System.getProperty("user.dir")+"\\screenShots\\new.Png");
-            
-			srcFile.renameTo(targetFile);
-		}
-	}
-
-
 	@After
 	public void tearDown(Scenario scenario) {
 	    if (scenario.isFailed()) {
 	        logger.info("Test failed. Taking Screenshot");
 	        try {
-	            String screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BASE64);
-	            screenshot = screenshot.replaceAll("[\n\r]", "");
-	            byte[] decodedString = Base64.getDecoder().decode(screenshot.getBytes(StandardCharsets.UTF_8));
-	            scenario.attach(decodedString, "image/png", "Screenshot added");
-	        } catch (Exception e) {
-	            logger.warn("Failed to capture screenshot: " + e.getMessage());
+	            File source = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+	            String screenshotName = scenario.getName().replace(" ", "_") + ".png";
+
+	            File destination = new File(
+	                    System.getProperty("user.dir")
+	                    + "/target/test-output/screenshots/"
+	                    + screenshotName);
+
+	            destination.getParentFile().mkdirs();
+
+	            Files.copy(source.toPath(), destination.toPath(),
+	                    StandardCopyOption.REPLACE_EXISTING);
+
+	            scenario.attach(
+	                    Files.readAllBytes(destination.toPath()),
+	                    "image/png",
+	                    screenshotName);
 	        }
+	        catch(IOException e) {
+	            logger.error("Unable to capture screenshot", e);
+	        	
+	        }
+	        
 	    }
 	    logger.info("************************* Test Completed *************************");
 	    if (getDriver() != null) {
@@ -82,4 +88,5 @@ public class Hooks extends WebDriverConfig {
 	    }
 	}
 }
+
 

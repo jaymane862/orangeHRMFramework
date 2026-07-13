@@ -10,7 +10,10 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = { "src/test/resources/Features" }, glue = { "StepDefinitions"},
-        plugin = {},
+        plugin = { "pretty",
+		"json:target/cucumber/reports.json", "junit:target/cucumber/reports.xml",
+		"html:target/cucumber/report.html",
+		"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:" },
         monochrome = true,
 
 		tags = "@jay",

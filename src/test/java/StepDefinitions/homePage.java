@@ -11,10 +11,10 @@ public class homePage extends WebDriverConfig{
 	
 	@And("^user verify \"([^\"]*)\" element is present on the page$")
 	public void verifyElementIsDisplayed(String locator) throws InterruptedException {
-		Thread.sleep(5000);
+		actionMethods.fluentWait(locator);
 		boolean value =actionMethods.isElementVisible(locator);
 		System.out.println(value);
-		Assert.assertTrue(value);
+		Assert.assertFalse("Element not found : "+locator,value);
 		
 	}
 	
