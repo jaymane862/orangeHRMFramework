@@ -29,11 +29,7 @@ pipeline {
                 echo 'Generating Reports...'
             }
         }
-        stage('Check Reports') {
-    steps {
-        bat 'dir target /s'
-    }
-}
+       
     }
 
     post {
