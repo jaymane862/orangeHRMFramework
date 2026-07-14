@@ -14,7 +14,7 @@ public class homePage extends WebDriverConfig{
 		actionMethods.fluentWait(locator);
 		boolean value =actionMethods.isElementVisible(locator);
 		System.out.println(value);
-		Assert.assertFalse("Element not found : "+locator,value);
+		Assert.assertTrue("Element not found : "+locator,value);
 		
 	}
 	

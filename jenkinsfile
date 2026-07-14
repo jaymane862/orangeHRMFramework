@@ -1,0 +1,65 @@
+pipeline {
+
+    agent any
+
+    
+    stages {
+
+       
+        stage('Clean Project') {
+            steps {
+                bat 'mvn clean'
+            }
+        }
+
+        stage('Build Project') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
+
+        stage('Execute Test Suite') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Generate Reports') {
+            steps {
+                echo 'Generating Reports...'
+            }
+        }
+    }
+
+    post {
+
+        always {
+
+            archiveArtifacts artifacts: 'target/test-output/**', fingerprint: true
+
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'target/test-output',
+                reportFiles: 'ExtentSpark.html',
+                reportName: 'Extent Spark Report'
+            ])
+
+            junit allowEmptyResults: true,
+                  testResults: 'target/surefire-reports/*.xml'
+        }
+
+        success {
+            echo 'Automation Execution Successful'
+        }
+
+        failure {
+            echo 'Automation Execution Failed'
+        }
+
+        cleanup {
+            cleanWs()
+        }
+    }
+}
