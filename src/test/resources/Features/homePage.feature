@@ -18,3 +18,4 @@ Feature: Verification of Login Page
     And user verify "homePage.forgotPasswordLink" element is present on the page
     And user verify "homePage.footerElement" element is present on the page
     And user verify "homePage.footerSocialMediaLinks" element is present on the page
+    Then user checks each link present on the page
