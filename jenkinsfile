@@ -34,6 +34,11 @@ pipeline {
     post {
 
         always {
+        stage('Check Reports') {
+    steps {
+        bat 'dir target /s'
+    }
+}
 
             archiveArtifacts artifacts: 'target/test-output/**', fingerprint: true
 
@@ -58,8 +63,6 @@ pipeline {
             echo 'Automation Execution Failed'
         }
 
-        cleanup {
-            cleanWs()
-        }
+        
     }
 }
