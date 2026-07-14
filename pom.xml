@@ -74,6 +74,13 @@
 	     
 
 	    <!-- Cucumber -->
+	    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+        </dependency>
+        
 		<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
@@ -93,14 +100,7 @@
         </dependency>
         
         
-        <!-- TestNg --> 
-        <!-- Source: https://mvnrepository.com/artifact/org.testng/testng -->
-        <dependency>
-               <groupId>org.testng</groupId>
-               <artifactId>testng</artifactId>
-               <version>7.12.0</version>
-               <scope>test</scope>
-        </dependency>
+         
 		 
 		 
 		<!-- -Excel Dependency -->
